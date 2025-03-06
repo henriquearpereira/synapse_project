@@ -1,0 +1,11 @@
+# Frontend dependencies
+react
+axios
+use-dark-mode
+framer-motion
+react-copy-to-clipboard
+react-router-dom
+
+# Kubernetes and Docker dependencies
+kubectl
+docker

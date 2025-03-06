@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapspark-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synapspark-backend
+  template:
+    metadata:
+      labels:
+        app: synapspark-backend
+    spec:
+      containers:
+      - name: synapspark-backend
+        image: teu_usuario/synapspark-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongodb:27017/"
+        - name: JWT_SECRET_KEY
+          value: "your_secret_key"
+        - name: PROMETHEUS_MULTIPROC_DIR
+          value: "/prometheus"
+        volumeMounts:
+        - name: prometheus-storage
+          mountPath: /prometheus
+      volumes:
+      - name: prometheus-storage
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapspark-backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: synapspark-backend

@@ -24,6 +24,8 @@ spec:
           value: "your_secret_key"
         - name: PROMETHEUS_MULTIPROC_DIR
           value: "/prometheus"
+        - name: LOKI_URL
+          value: "http://loki:3100/loki/api/v1/push"
         volumeMounts:
         - name: prometheus-storage
           mountPath: /prometheus

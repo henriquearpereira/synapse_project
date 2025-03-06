@@ -7,13 +7,15 @@ from pymongo import MongoClient
 from prometheus_client import start_http_server, Counter, Histogram
 from prometheus_client import make_wsgi_app
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
+import os
 
 app = Flask(__name__)
 synapspark = SynapSpark()
 
 # Configura logging pro Loki
+loki_url = os.getenv("LOKI_URL", "http://loki:3100/loki/api/v1/push")
 handler = logging_loki.LokiHandler(
-    url="http://loki:3100/loki/api/v1/push",
+    url=loki_url,
     tags={"application": "synapspark-backend"},
     version="1",
 )
